@@ -11,53 +11,65 @@ namespace _06.VehicleCatalogue
         static void Main(string[] args)
         {
             List<Catalogue> catalogue = new List<Catalogue>();
-            string[] input = Console.ReadLine()
-                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
-                .ToArray();
-            while (input[0] != "End")
+            string[] currentVehicle = Console.ReadLine().Split(" ").ToArray();
+            while (currentVehicle[0] != "End")
             {
-                Catalogue vehicle = new Catalogue(input[0], input[1], input[2], int.Parse(input[3]));
-                catalogue.Add(vehicle);
-                input = Console.ReadLine()
-                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
-                .ToArray();
+                string type = currentVehicle[0];
+                string model = currentVehicle[1];
+                string color = currentVehicle[2];
+                int horsepower = int.Parse(currentVehicle[3]);
+                Catalogue newVehicle = new Catalogue(type, model, color, horsepower);
+                catalogue.Add(newVehicle);
+                currentVehicle = Console.ReadLine().Split(" ").ToArray();
             }
-            string model = Console.ReadLine();
-            while (model != "Close the Catalogue")
+            string models = Console.ReadLine();
+            while (models != "Close the Catalogue")
             {
                 foreach (Catalogue item in catalogue)
                 {
-                    if (item.Model == model)
+                    if (item.Model == models)
                     {
                         if (item.Type == "car")
                         {
-                            Console.WriteLine("Type: Car");
+                            Console.WriteLine($"Type: Car\nModel: {item.Model}\nColor: {item.Color}\nHorsepower: {item.HorsePower}");
                         }
                         else
                         {
-                            Console.WriteLine("Type: Truck");
+                            Console.WriteLine($"Type: Truck\nModel: {item.Model}\nColor: {item.Color}\nHorsepower: {item.HorsePower}");
                         }
-                        Console.WriteLine($"Model: {item.Model}\nColor: {item.Color}\nHorsepower: {item.HorsePower}");
+                        break;
                     }
                 }
-                model = Console.ReadLine();
+                models = Console.ReadLine();
             }
-            List<int> trucks = new List<int>();
-            List<int> cars = new List<int>();
+            double carsSum = 0;
+            int carsCount = 0;
+            double trucksSum = 0;
+            int trucksCount = 0;
             foreach (Catalogue item in catalogue)
             {
-                if (item.Type == "truck")
+                if (item.Type == "car")
                 {
-                    trucks.Add(item.HorsePower);
+                    carsSum += item.HorsePower;
+                    carsCount++;
                 }
-                else if (item.Type == "car")
+                else if (item.Type == "truck")
                 {
-                    cars.Add(item.HorsePower);
+                    trucksSum += item.HorsePower;
+                    trucksCount++;
                 }
             }
-            double carsAvrg = cars.Sum() / cars.Count;
-            double trucksAvrg = trucks.Sum() / trucks.Count;
-            Console.WriteLine($"Cars have average horsepower of: {carsAvrg:f2}.\nTrucks have average horsepower of: {trucksAvrg:f2}.");
+            double carsAvrg = carsSum / carsCount;
+            double trucksAvrg = trucksSum / trucksCount;
+            if (carsCount > 0)
+            {
+                Console.WriteLine($"Cars have average horsepower of: {carsAvrg:f2}.");
+            }
+            if (trucksCount > 0)
+            {
+                Console.WriteLine($"Trucks have average horsepower of: {trucksAvrg:f2}.");
+            }
+
         }
     }
     class Catalogue
