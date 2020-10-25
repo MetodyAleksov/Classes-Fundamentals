@@ -62,6 +62,7 @@ namespace _05.ShoppingSpree
         {
             Name = name;
             Money = money;
+            Bag = new List<Product>();
         }
 
         public string Name { get; set; }
@@ -70,7 +71,7 @@ namespace _05.ShoppingSpree
 
         public override string ToString()
         {
-            return $"{Name} - {string.Join(", ", Bag.ToString())}";
+            return $"{Name} - {(Bag.Count > 0 ? string.Join(", ", Bag): "Nothing bought")}";
         }
     }
     class Product
